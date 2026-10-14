@@ -67,7 +67,7 @@ In Smart Life, find **Me → Settings → Account and Security → User Code**.
 `ac login` asks for that code and opens a QR image; scan it from Smart Life
 and approve login. Local keys are saved directly in macOS Keychain. Configure
 the physical Wi-Fi IR hub, not the virtual AC remote. Normal control runs over
-the LAN without the cloud API. `ac on` selects cooling at 24°C; `ac off` sends
+the LAN without the cloud API. `ac on` selects cooling at 28°C with auto fan; `ac off` sends
 off; `ac temp 16` through `ac temp 30` set cooling/on temperature.
 
 See the [source and full setup guide](https://github.com/Grynn/tuya-ac) for app

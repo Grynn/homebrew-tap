@@ -1,8 +1,8 @@
 class TuyaAc < Formula
   desc "Control a Daikin200 AC over LAN through a Tuya infrared hub"
   homepage "https://github.com/Grynn/tuya-ac"
-  url "https://github.com/Grynn/tuya-ac/releases/download/v0.1.0/tuya-ac-0.1.0.tar.gz"
-  sha256 "3d6560b03b186aa5631b7368bc0921a50eb67e34aec64227f9a643718f39bf62"
+  url "https://github.com/Grynn/tuya-ac/releases/download/v0.1.1/tuya-ac-0.1.1.tar.gz"
+  sha256 "41b1ca0d89d0a7d9ab5f85742c185e9d8c1189229b1728817f05d5e7c0930678"
   license "MIT"
 
   depends_on :macos
@@ -37,7 +37,7 @@ class TuyaAc < Formula
   end
 
   test do
-    assert_match "0.1.0", shell_output("#{bin}/ac --version")
+    assert_match "0.1.1", shell_output("#{bin}/ac --version")
     ENV["AC_CONFIG_DIR"] = testpath/"config"
     system bin/"ac", "configure", "--device-id", "test-device", "--ip", "192.0.2.1"
     output = shell_output("#{bin}/ac temp 28 --dry-run")
