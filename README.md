@@ -1,9 +1,21 @@
 # Grynn's Homebrew tap
 
-A small collection of tools distributed through [Homebrew](https://brew.sh).
+Personal CLI tools, desktop apps and widgets, iPhone/Watch apps and widgets,
+and menu-bar utilities, distributed or linked through [Homebrew](https://brew.sh).
 This repository contains the **formulas** that tell Homebrew how to download,
 build, and install each tool; the applications themselves live in their linked
 source repositories.
+
+The tap is for tools you can install and use on your own devices. Prefer source
+builds; use bottles only when a source build is impractical. iPhone/Watch apps
+are linked with Xcode build and signing instructions, since Homebrew does not
+install apps onto those devices.
+
+Architecture-specific systems with backend/frontend deployments, databases,
+workers, or network configuration stay in standalone repositories. This includes
+IBKR Reporting App, SixBot, crons, IBind Proxy, and similar server applications.
+A small client for an existing service can be listed; deploying that service is
+outside the tap.
 
 ## Quick start
 
@@ -91,33 +103,26 @@ tapping this repository.
 | Tool | Repository / source | Install or build from checkout | Why linked separately |
 | --- | --- | --- | --- |
 | `open-in-browser` | [open-in-browser](https://github.com/Grynn/open-in-browser) | `npm install`, then `node bin/open.js URL` | Source-linked pending dependency cleanup: its current lock includes npm advisories, including critical `shell-quote`; no tap formula yet. |
-| `ytq` | [yt-queue](https://github.com/Grynn/yt-queue) (private) | `uv tool install ".[worker]"` | Configure its PostgreSQL connection; worker also needs ffmpeg, uvx, bunx and mail delivery. Apple Silicon for MLX. CLI-only: `uv tool install .`. |
-| `vixxa` | [Vixxa-homebrew/vixxa-cli](https://github.com/Grynn/Vixxa-homebrew/tree/main/vixxa-cli) (private) | `uv tool install ./vixxa-cli` | Bluetooth access and personal sensor configuration. |
-| VixxaBar | [Vixxa-homebrew/VixxaBar](https://github.com/Grynn/Vixxa-homebrew/tree/main/VixxaBar) (private) | `VixxaBar/build.sh`, then `open VixxaBar/build/VixxaBar.app` | macOS 14+, Xcode Command Line Tools; install `vixxa` first. Builds/ad-hoc signs locally. |
-| VixxaApp / Watch | [Vixxa-homebrew/VixxaApp](https://github.com/Grynn/Vixxa-homebrew/tree/main/VixxaApp) (private) | In `VixxaApp`: `xcodegen generate`, then open `VixxaApp.xcodeproj` in Xcode and run on your device. | iPhone/Watch apps require your signing team and devices; not Homebrew desktop apps. |
+| `ytq` client | [yt-queue](https://github.com/Grynn/yt-queue) (private) | `uv tool install .` | Client for an existing queue service. Backend, database, workers, and deployment remain in the standalone project. |
+| GlucoScan CLI | [CLI source](https://github.com/Grynn/Vixxa-homebrew/tree/main/vixxa-cli) (private) | `uv tool install ./vixxa-cli` | Bluetooth access and sensor configuration; current executable is `vixxa`. |
+| GlucoScan menu-bar utility | [macOS source](https://github.com/Grynn/Vixxa-homebrew/tree/main/VixxaBar) (private) | `VixxaBar/build.sh`, then `open VixxaBar/build/VixxaBar.app` | macOS 14+, Xcode Command Line Tools; install the CLI first. Builds/ad-hoc signs locally. |
+| GlucoScan iPhone / Watch apps and widgets | [iPhone source](https://github.com/Grynn/Vixxa-homebrew/tree/main/VixxaApp), [Watch source](https://github.com/Grynn/Vixxa-homebrew/tree/main/Watch) (private) | In `VixxaApp`: `xcodegen generate`, then open `VixxaApp.xcodeproj` in Xcode and run on your device. See `Watch` for Watch build instructions. | Requires your signing team and devices; source-linked rather than installed through Homebrew. |
 | Alfred scripts | [alfred-scripts](https://github.com/Grynn/alfred-scripts) (private) | `make install-new`, `make install-rr`, or `make install-ytq` | Builds and opens workflows for import into Alfred; install each workflow's CLI first. |
-| Shared finance library | [grynn_pylib](https://github.com/Grynn/grynn_pylib) | In a consuming Python project: `uv add grynn-pylib`; local source: `uv add /path/to/grynn_pylib` | Python library, no standalone CLI. |
-| IBKR reporting | [ibkr-reporting-app](https://github.com/Grynn/ibkr-reporting-app) (private) | `uv sync`, configure environment, then `uv run ibkr --help` | Portfolio database and private operational configuration; deployment follows its README. |
-| IBind proxy | [ibind-proxy](https://github.com/Grynn/ibind-proxy) (private) | `uv sync`, configure `.env` and OAuth keys, then `uv run ibind-proxy` | Authenticated service; not automatically started by Homebrew. |
-| Scheduled tools | [crons](https://github.com/Grynn/crons) (private) | Run individual PEP 723 scripts with `uv run scripts/SCRIPT.py` following its README. | Host-specific jobs and configuration; importing schedules is a separate action. |
-| Options Scanner | Local project `options_scanner` (no origin remote configured at audit) | In `api`: `uv tool install .`; frontend: `npm ci` and `npm run build` in `frontends/webapp`. | No verified remote source URL; full application configuration follows its local README. |
 | Gmail attachments CLI | Local project `gmail-cli` (no origin remote configured at audit) | `npm install`, then `node bin/index.js --help` | Legacy Node tool; configure OAuth locally. `gog` is the preferred current Gmail CLI. |
 | Roam MCP | [roam-research-mcp](https://github.com/2b3pro/roam-research-mcp) | Follow the repository README setup instructions. | MCP server configured in its client rather than a desktop command. |
-| System administration scripts | [scripts](https://github.com/Grynn/scripts) | Inspect and run individual scripts from a checkout. | Heterogeneous scripts with machine-specific effects. |
 | Alfred date utilities | [alfred-chrono](https://github.com/Grynn/alfred-chrono), [FuzzyDate](https://github.com/Grynn/FuzzyDate), [alfred-qw](https://github.com/Grynn/alfred-qw) | Follow each workflow's build/import instructions. | Existing standalone workflow projects. |
-| OpenClaw Serper integration | [openclaw-serper-plugin](https://github.com/Grynn/openclaw-serper-plugin) | Follow the plugin README. | Installed/configured in OpenClaw. |
 | Google Analytics CLI | [ga-stats-cli](https://github.com/Grynn/ga-stats-cli) (private) | Follow its README for source setup and authentication. | Account-specific reporting configuration. |
-| SixBot | [sixbot](https://github.com/Grynn/sixbot) (private) | Follow its documented Docker build/deploy workflow. | Long-running Discord service with private configuration. |
-| MonitorBot | [monitorbot](https://github.com/Grynn/monitorbot) | Follow its README. | Historical task runner; current personal schedules live in `crons`. |
-| Cloudflare DNS backup | [cf-dns-backup](https://github.com/Grynn/cf-dns-backup) | Follow its README and configure credentials locally. | Administrative script. |
 | Smart Life / Tuya | [tuya-ac](https://github.com/Grynn/tuya-ac) | `brew install grynn/tap/tuya-ac` | See the Tuya AC setup guide above for pairing and local keys. |
 | Roam private API | Local project `roam-research-private-api` | Follow the local README. | Browser automation with local session setup; prefer `rr` for read-only search. |
-| Jenkins agent | Local project `jenkins-agent` | Follow the local README. | Machine-specific LaunchAgent and controller configuration. |
 
-This directory covers the current local tools registry and related maintained
-utilities. Repository visibility and build metadata were checked on 14 October
-2026. Local-only projects stay local; the tap does not create or publish their
-repositories.
+GlucoScan is the product name used in this directory. The existing repository,
+source directories, executable names, and Xcode targets still use their original
+names; the commands above match those current sources. The standalone project
+is responsible for migrating its app branding and identifiers.
+
+This directory is curated for personal device tools, rather than mirroring the
+entire project registry. Repository visibility and build metadata were checked
+on 14 October 2026. Local-only projects stay local.
 
 ### Share to Claw
 
