@@ -30,7 +30,7 @@ formula such as `grynn/tap/proclick` automatically adds the tap.
 
 ## What's included?
 
-All three entries are **formulas**, not casks. Use `brew install`, without
+All entries are **formulas**, not casks. Use `brew install`, without
 `--cask`.
 
 | Formula | What it adds | Requirements |
@@ -38,6 +38,29 @@ All three entries are **formulas**, not casks. Use `brew install`, without
 | [`share-to-claw`](https://github.com/Grynn/share-to-claw) | A macOS **Share to Claw** share-sheet extension, a delivery relay, and the `share-to-claw` command. Sends shared content to destinations you configure: webhooks, Telegram as your own account, or local CLI tools. | macOS 13+ and full Xcode for the build. Homebrew installs `uv`. |
 | [`proclick`](https://github.com/Grynn/proclick) | The `proclick` command for configuring a **Razer Pro Click Mini** without Razer Synapse. | macOS and a supported mouse connected through its HyperSpeed 2.4 GHz receiver. Homebrew installs `hidapi` and Python 3.13. |
 | [`telegram.sh`](https://github.com/Grynn/telegram.sh) | The `telegram` command for sending messages and files through a **Telegram bot**—useful for scripts and job notifications. | Bash, curl, and a configured Telegram bot. The formula recommends `jq` for listing chats; it has no macOS-only restriction. |
+| [`tuya-ac`](https://github.com/Grynn/tuya-ac) | The `ac` command for LAN control of a **Daikin200 air conditioner** through a compatible Tuya/Smart Life IR hub. Includes Smart Life QR local-key setup. | macOS, a Tuya 3.5 IR hub using DPS 201/202, and a compatible Daikin remote. Homebrew installs Python 3.13 and `uv`. |
+
+### Tuya AC
+
+```sh
+brew install grynn/tap/tuya-ac
+ac login
+ac scan
+ac configure --device-id YOUR_PHYSICAL_HUB_ID --ip YOUR_LAN_IP
+ac check
+ac temp 28
+```
+
+In Smart Life, find **Me → Settings → Account and Security → User Code**.
+`ac login` asks for that code and opens a QR image; scan it from Smart Life
+and approve login. Local keys are saved directly in macOS Keychain. Configure
+the physical Wi-Fi IR hub, not the virtual AC remote. Normal control runs over
+the LAN without the cloud API. `ac on` selects cooling at 24°C; `ac off` sends
+off; `ac temp 16` through `ac temp 30` set cooling/on temperature.
+
+See the [source and full setup guide](https://github.com/Grynn/tuya-ac) for app
+pairing, manual/developer-project key retrieval, learning, compatibility and
+troubleshooting. The CLI cannot read the AC's actual state or setpoint.
 
 ### Share to Claw
 
@@ -136,7 +159,7 @@ brew update
 brew upgrade grynn/tap/share-to-claw
 ```
 
-Substitute `proclick` or `telegram.sh` to inspect or upgrade those formulas.
+Substitute `proclick`, `telegram.sh`, or `tuya-ac` to inspect or upgrade those formulas.
 `brew update` refreshes package definitions; it does not itself upgrade installed
 tools.
 
@@ -155,6 +178,7 @@ Remove the other tools individually if installed:
 ```sh
 brew uninstall grynn/tap/proclick
 brew uninstall grynn/tap/telegram.sh
+brew uninstall grynn/tap/tuya-ac
 ```
 
 Once no installed formulas depend on this tap, remove it:
