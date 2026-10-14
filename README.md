@@ -30,8 +30,8 @@ formula such as `grynn/tap/proclick` automatically adds the tap.
 
 ## What's included?
 
-All entries are **formulas**, not casks. Use `brew install`, without
-`--cask`.
+The installable entries are **formulas**, not casks. Use `brew install`, without
+`--cask`. The directory below also links tools that need a checkout or device signing.
 
 | Formula | What it adds | Requirements |
 | --- | --- | --- |
@@ -61,6 +61,63 @@ off; `ac temp 16` through `ac temp 30` set cooling/on temperature.
 See the [source and full setup guide](https://github.com/Grynn/tuya-ac) for app
 pairing, manual/developer-project key retrieval, learning, compatibility and
 troubleshooting. The CLI cannot read the AC's actual state or setpoint.
+
+### Source builds
+
+The formulas in this tap build or install the tool from source. There are no
+Homebrew bottles for the newly added tools. Homebrew may use bottles for upstream
+dependencies, and uv/npm may download prebuilt third-party dependencies; building
+large scientific dependencies from scratch is not required to build these tools.
+Python tools use an isolated uv environment inside their Homebrew keg, not your
+personal uv tool directory. Their dependency versions are resolved at installation
+time; the application source itself is pinned and checksummed.
+
+| Formula | Source | Install | Notes |
+| --- | --- | --- | --- |
+| `rr` | [roam-research-cli](https://github.com/Grynn/roam-research-cli) | `brew install grynn/tap/rr` | Python CLI, no runtime Python dependencies; requires Roam desktop's local API. |
+| `fplot` | [grynn_cli_fplot](https://github.com/Grynn/grynn_cli_fplot) | `brew install grynn/tap/fplot` | Python charts/options CLI; scientific dependencies installed with uv. |
+| `pyflexweb` | [pyflexweb](https://github.com/Grynn/pyflexweb) | `brew install grynn/tap/pyflexweb` | Configure your own IBKR Flex token/query IDs. |
+| `yt-transcribe` | [yt-transcribe](https://github.com/Grynn/yt-transcribe) | `brew install grynn/tap/yt-transcribe` | Apple Silicon macOS; ffmpeg and uv included; MLX model downloads on first use. |
+| `desktop-timer` | [desktop-timer](https://github.com/Grynn/desktop-timer) | `brew install grynn/tap/desktop-timer`, then `TIMER_SIGNING_TEAM=YOUR_TEAM_ID desktop-timer install` | Builds the signed macOS app and WidgetKit extension locally; requires Xcode and your signing team. |
+
+### Personal tools directory
+
+Private repositories below require a GitHub account with access. Their links do
+not publish their contents. Authenticate with `gh auth login`, then use `gh repo
+clone Grynn/REPOSITORY` and run the listed commands inside that checkout. No
+credentials, user data, background jobs, or server configuration are installed by
+tapping this repository.
+
+| Tool | Repository / source | Install or build from checkout | Why linked separately |
+| --- | --- | --- | --- |
+| `open-in-browser` | [open-in-browser](https://github.com/Grynn/open-in-browser) | `npm install`, then `node bin/open.js URL` | Source-linked pending dependency cleanup: its current lock includes npm advisories, including critical `shell-quote`; no tap formula yet. |
+| `ytq` | [yt-queue](https://github.com/Grynn/yt-queue) (private) | `uv tool install ".[worker]"` | Configure its PostgreSQL connection; worker also needs ffmpeg, uvx, bunx and mail delivery. Apple Silicon for MLX. CLI-only: `uv tool install .`. |
+| `vixxa` | [Vixxa-homebrew/vixxa-cli](https://github.com/Grynn/Vixxa-homebrew/tree/main/vixxa-cli) (private) | `uv tool install ./vixxa-cli` | Bluetooth access and personal sensor configuration. |
+| VixxaBar | [Vixxa-homebrew/VixxaBar](https://github.com/Grynn/Vixxa-homebrew/tree/main/VixxaBar) (private) | `VixxaBar/build.sh`, then `open VixxaBar/build/VixxaBar.app` | macOS 14+, Xcode Command Line Tools; install `vixxa` first. Builds/ad-hoc signs locally. |
+| VixxaApp / Watch | [Vixxa-homebrew/VixxaApp](https://github.com/Grynn/Vixxa-homebrew/tree/main/VixxaApp) (private) | In `VixxaApp`: `xcodegen generate`, then open `VixxaApp.xcodeproj` in Xcode and run on your device. | iPhone/Watch apps require your signing team and devices; not Homebrew desktop apps. |
+| Alfred scripts | [alfred-scripts](https://github.com/Grynn/alfred-scripts) (private) | `make install-new`, `make install-rr`, or `make install-ytq` | Builds and opens workflows for import into Alfred; install each workflow's CLI first. |
+| Shared finance library | [grynn_pylib](https://github.com/Grynn/grynn_pylib) | In a consuming Python project: `uv add grynn-pylib`; local source: `uv add /path/to/grynn_pylib` | Python library, no standalone CLI. |
+| IBKR reporting | [ibkr-reporting-app](https://github.com/Grynn/ibkr-reporting-app) (private) | `uv sync`, configure environment, then `uv run ibkr --help` | Portfolio database and private operational configuration; deployment follows its README. |
+| IBind proxy | [ibind-proxy](https://github.com/Grynn/ibind-proxy) (private) | `uv sync`, configure `.env` and OAuth keys, then `uv run ibind-proxy` | Authenticated service; not automatically started by Homebrew. |
+| Scheduled tools | [crons](https://github.com/Grynn/crons) (private) | Run individual PEP 723 scripts with `uv run scripts/SCRIPT.py` following its README. | Host-specific jobs and configuration; importing schedules is a separate action. |
+| Options Scanner | Local project `options_scanner` (no origin remote configured at audit) | In `api`: `uv tool install .`; frontend: `npm ci` and `npm run build` in `frontends/webapp`. | No verified remote source URL; full application configuration follows its local README. |
+| Gmail attachments CLI | Local project `gmail-cli` (no origin remote configured at audit) | `npm install`, then `node bin/index.js --help` | Legacy Node tool; configure OAuth locally. `gog` is the preferred current Gmail CLI. |
+| Roam MCP | [roam-research-mcp](https://github.com/2b3pro/roam-research-mcp) | Follow the repository README setup instructions. | MCP server configured in its client rather than a desktop command. |
+| System administration scripts | [scripts](https://github.com/Grynn/scripts) | Inspect and run individual scripts from a checkout. | Heterogeneous scripts with machine-specific effects. |
+| Alfred date utilities | [alfred-chrono](https://github.com/Grynn/alfred-chrono), [FuzzyDate](https://github.com/Grynn/FuzzyDate), [alfred-qw](https://github.com/Grynn/alfred-qw) | Follow each workflow's build/import instructions. | Existing standalone workflow projects. |
+| OpenClaw Serper integration | [openclaw-serper-plugin](https://github.com/Grynn/openclaw-serper-plugin) | Follow the plugin README. | Installed/configured in OpenClaw. |
+| Google Analytics CLI | [ga-stats-cli](https://github.com/Grynn/ga-stats-cli) (private) | Follow its README for source setup and authentication. | Account-specific reporting configuration. |
+| SixBot | [sixbot](https://github.com/Grynn/sixbot) (private) | Follow its documented Docker build/deploy workflow. | Long-running Discord service with private configuration. |
+| MonitorBot | [monitorbot](https://github.com/Grynn/monitorbot) | Follow its README. | Historical task runner; current personal schedules live in `crons`. |
+| Cloudflare DNS backup | [cf-dns-backup](https://github.com/Grynn/cf-dns-backup) | Follow its README and configure credentials locally. | Administrative script. |
+| Smart Life / Tuya | [tuya-ac](https://github.com/Grynn/tuya-ac) | `brew install grynn/tap/tuya-ac` | See the Tuya AC setup guide above for pairing and local keys. |
+| Roam private API | Local project `roam-research-private-api` | Follow the local README. | Browser automation with local session setup; prefer `rr` for read-only search. |
+| Jenkins agent | Local project `jenkins-agent` | Follow the local README. | Machine-specific LaunchAgent and controller configuration. |
+
+This directory covers the current local tools registry and related maintained
+utilities. Repository visibility and build metadata were checked on 14 October
+2026. Local-only projects stay local; the tap does not create or publish their
+repositories.
 
 ### Share to Claw
 
