@@ -107,7 +107,9 @@ tapping this repository.
 | GlucoScan CLI | [CLI source](https://github.com/Grynn/Vixxa-homebrew/tree/main/vixxa-cli) (private) | `uv tool install ./vixxa-cli` | Bluetooth access and sensor configuration; current executable is `vixxa`. |
 | GlucoScan menu-bar utility | [macOS source](https://github.com/Grynn/Vixxa-homebrew/tree/main/VixxaBar) (private) | `VixxaBar/build.sh`, then `open VixxaBar/build/VixxaBar.app` | macOS 14+, Xcode Command Line Tools; install the CLI first. Builds/ad-hoc signs locally. |
 | GlucoScan iPhone / Watch apps and widgets | [iPhone source](https://github.com/Grynn/Vixxa-homebrew/tree/main/VixxaApp), [Watch source](https://github.com/Grynn/Vixxa-homebrew/tree/main/Watch) (private) | In `VixxaApp`: `xcodegen generate`, then open `VixxaApp.xcodeproj` in Xcode and run on your device. See `Watch` for Watch build instructions. | Requires your signing team and devices; source-linked rather than installed through Homebrew. |
-| Alfred scripts | [alfred-scripts](https://github.com/Grynn/alfred-scripts) (private) | `make install-new`, `make install-rr`, or `make install-ytq` | Builds and opens workflows for import into Alfred; install each workflow's CLI first. |
+| Alfred scripts | [alfred-scripts](https://github.com/Grynn/alfred-scripts) (private) | `make install-<name>` per workflow, e.g. `make install-swap` | Builds and opens workflows for import into Alfred; install each workflow's CLI first. Full list under [Alfred workflows](#alfred-workflows). |
+| umark | [umark](https://github.com/Grynn/umark) (private) | `./scripts/build.sh` | Menu-bar app: ⌃H bookmarks what's in front (file, page, email, Roam block, note) as a link that opens anywhere. macOS 15+, Xcode. |
+| Summon | [summon](https://github.com/Grynn/summon) (private) | In `App`: `xcodegen generate`, `xcodebuild … build`, then open `Summon.app` (see its README) | Menu-bar voice leader key: say “Summon” plus a keyword, or route the request to a Claude Code session. iPhone Action Button companion. |
 | Gmail attachments CLI | Local project `gmail-cli` (no origin remote configured at audit) | `npm install`, then `node bin/index.js --help` | Legacy Node tool; configure OAuth locally. `gog` is the preferred current Gmail CLI. |
 | Roam MCP | [roam-research-mcp](https://github.com/2b3pro/roam-research-mcp) | Follow the repository README setup instructions. | MCP server configured in its client rather than a desktop command. |
 | Alfred date utilities | [alfred-chrono](https://github.com/Grynn/alfred-chrono), [FuzzyDate](https://github.com/Grynn/FuzzyDate), [alfred-qw](https://github.com/Grynn/alfred-qw) | Follow each workflow's build/import instructions. | Existing standalone workflow projects. |
@@ -123,6 +125,53 @@ is responsible for migrating its app branding and identifiers.
 This directory is curated for personal device tools, rather than mirroring the
 entire project registry. Repository visibility and build metadata were checked
 on 14 October 2026. Local-only projects stay local.
+
+### Alfred workflows
+
+Custom workflows in [alfred-scripts](https://github.com/Grynn/alfred-scripts)
+(private). Each builds with `make install-<name>` from the checkout; on a Mac that
+syncs Alfred prefs through Dropbox they are already present.
+
+| Keyword | Workflow | What it does | Needs |
+| --- | --- | --- | --- |
+| `swap` | Swap | Sends the top window on the main display one screen right, then centres the next Cmd-Tab app on main | Accessibility + System Events permission |
+| `claw` | Claw | `claw MESSAGE` sends to the Claw Telegram DM; bare `claw` opens the chat | `share-to-claw` |
+| `ytq` | Video Queue | Queue a video URL, search the queue, or open the dashboard | `ytq`, `open-in-browser` |
+| `rr` | Roam Search | Searches the live Roam graph | `rr` |
+| `fplot` | Financial Charts | Stock charts and options screens | `fplot` |
+| `h` | Holdings Search | Instant search of IBKR holdings | holdings API access |
+| `ac` | AC | Controls the Daikin AC | `tuya-ac` |
+| `new` | New Clipboard File | Turns the clipboard into a file, adds it to Yoink | Yoink (optional) |
+| `dot` | Your dot | Opens Your dot in the ChatGPT desktop app | ChatGPT app |
+| `six` | SixBot | Opens the SixBot Discord chat | Discord |
+| `addbuffer` | Add to Buffer | Adds the Finder selection to Alfred's file buffer | — |
+| `fd` | Chrono | Natural-language dates | — |
+| configurable | Grok, OpenAI/Groq | Chat with xAI / OpenAI / Groq models | API key in workflow config |
+
+### Mac customisation apps
+
+Third-party utilities in daily use. These are not in this tap; install them from
+their own sources.
+
+| App | What it's for | Install |
+| --- | --- | --- |
+| [Alfred 5](https://www.alfredapp.com/) | Launcher; runs the workflows above | `brew install --cask alfred` |
+| [BetterTouchTool](https://folivora.ai/) | Window moves, keyboard and trackpad shortcuts | `brew install --cask bettertouchtool` |
+| [Hookmark](https://hookproductivity.com/) | Links between files, emails and pages (umark is the home-grown take) | `brew install --cask hookmark` |
+| [Yoink](https://eternalstorms.at/yoink/mac/) | Drag-and-drop shelf | `brew install --cask yoink` |
+| [Mac Mouse Fix](https://macmousefix.com/) | Gestures and smooth scrolling on third-party mice | `brew install --cask mac-mouse-fix` |
+| [Tuna](https://tunaformac.com/) | Keyboard launcher | `brew install --cask tuna` |
+| [Amphetamine](https://apps.apple.com/app/amphetamine/id937984704) | Keeps the Mac awake | Mac App Store |
+| [Macs Fan Control](https://crystalidea.com/macs-fan-control) | Fan speeds and temperatures | `brew install --cask macs-fan-control` |
+| [coconutBattery](https://www.coconut-flavour.com/coconutbattery/) | Battery health for Mac, iPhone and iPad | `brew install --cask coconutbattery` |
+| [OpenUsage](https://www.openusage.ai/) | Menu-bar AI usage meter (Claude Code, Codex, Cursor) | `brew install --cask openusage` |
+| NewFile | New-file item in Finder | Mac App Store |
+| [Smart Trash Can](https://apps.apple.com/app/id1570401320) | Removes an app's leftovers when it is trashed | Mac App Store |
+| [CleanMyMac](https://macpaw.com/cleanmymac) | Disk and app cleanup | `brew install --cask cleanmymac` |
+
+Home-grown Mac apps (Share to Claw, Desktop Timer, umark, Summon, GlucoScan's
+VixxaBar) are in the tables above, as are `proclick` for the Razer mouse and the
+Daikin `ac` CLI.
 
 ### Share to Claw
 
