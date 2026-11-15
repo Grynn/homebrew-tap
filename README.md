@@ -42,8 +42,9 @@ formula such as `grynn/tap/proclick` automatically adds the tap.
 
 ## What's included?
 
-The installable entries are **formulas**, not casks. Use `brew install`, without
-`--cask`. The directory below also links tools that need a checkout or device signing.
+The installable entries are **formulas**, installed with `brew install`, plus one
+**cask**, `holdings`, installed with `brew install --cask`. The directory below also
+links tools that need a checkout or device signing.
 
 | Formula | What it adds | Requirements |
 | --- | --- | --- |
@@ -51,6 +52,10 @@ The installable entries are **formulas**, not casks. Use `brew install`, without
 | [`proclick`](https://github.com/Grynn/proclick) | The `proclick` command for configuring a **Razer Pro Click Mini** without Razer Synapse. | macOS and a supported mouse connected through its HyperSpeed 2.4 GHz receiver. Homebrew installs `hidapi` and Python 3.13. |
 | [`telegram.sh`](https://github.com/Grynn/telegram.sh) | The `telegram` command for sending messages and files through a **Telegram bot**—useful for scripts and job notifications. | Bash, curl, and a configured Telegram bot. The formula recommends `jq` for listing chats; it has no macOS-only restriction. |
 | [`tuya-ac`](https://github.com/Grynn/tuya-ac) | The `ac` command for LAN control of a **Daikin200 air conditioner** through a compatible Tuya/Smart Life IR hub. Includes Smart Life QR local-key setup. | macOS, a Tuya 3.5 IR hub using DPS 201/202, and a compatible Daikin remote. Homebrew installs Python 3.13 and `uv`. |
+
+| Cask | What it adds | Requirements |
+| --- | --- | --- |
+| [`holdings`](https://github.com/Grynn/holdings-widget) (private) | **Holdings.app**: the IBKR holdings dashboard as a Mac app with desktop widgets. `brew install --cask grynn/tap/holdings` | macOS 14+ and Tailscale on: the download is served on the tailnet only. Then paste the Base URL, Token and Access fields into Holdings > Settings. Signed with a personal development certificate, not notarised; the cask clears the quarantine flag so it opens. |
 
 ### Tuya AC
 
@@ -108,7 +113,7 @@ tapping this repository.
 | GlucoScan CLI | [CLI source](https://github.com/Grynn/Vixxa-homebrew/tree/main/vixxa-cli) (private) | `uv tool install ./vixxa-cli` | Bluetooth access and sensor configuration; current executable is `vixxa`. |
 | GlucoScan menu-bar utility | [macOS source](https://github.com/Grynn/Vixxa-homebrew/tree/main/VixxaBar) (private) | `VixxaBar/build.sh`, then `open VixxaBar/build/VixxaBar.app` | macOS 14+, Xcode Command Line Tools; install the CLI first. Builds/ad-hoc signs locally. |
 | GlucoScan iPhone / Watch apps and widgets | [iPhone source](https://github.com/Grynn/Vixxa-homebrew/tree/main/VixxaApp), [Watch source](https://github.com/Grynn/Vixxa-homebrew/tree/main/Watch) (private) | In `VixxaApp`: `xcodegen generate`, then open `VixxaApp.xcodeproj` in Xcode and run on your device. See `Watch` for Watch build instructions. | Requires your signing team and devices; source-linked rather than installed through Homebrew. |
-| Holdings app (Mac, iPhone, Watch, widgets) | [holdings-widget](https://github.com/Grynn/holdings-widget) (private) | Mac: download the zip from the dashboard's Tools page (holdings.twidex.com/tools). iPhone and Watch: `brew install xcodegen`, copy `Local.xcconfig.example` to `Local.xcconfig` with your Team ID, then `make install-iphone DEVICE=<udid>` (`make devices` lists them). | Needs a per-device token from the holdings server; a free team's iPhone install expires after 7 days. |
+| Holdings app (Mac, iPhone, Watch, widgets) | [holdings-widget](https://github.com/Grynn/holdings-widget) (private) | Mac: `brew install --cask grynn/tap/holdings` (Tailscale on), or the zip from the dashboard's Tools page (holdings.twidex.com/tools). iPhone and Watch: `brew install xcodegen`, copy `Local.xcconfig.example` to `Local.xcconfig` with your Team ID, then `make install-iphone DEVICE=<udid>` (`make devices` lists them). | Needs a per-device token from the holdings server; a free team's iPhone install expires after 7 days. |
 | Alfred scripts | [alfred-scripts](https://github.com/Grynn/alfred-scripts) (private) | `make install-<name>` per workflow, e.g. `make install-swap` | Builds and opens workflows for import into Alfred; install each workflow's CLI first. Full list under [Alfred workflows](#alfred-workflows). |
 | Summon | [summon](https://github.com/Grynn/summon) (private) | In `App`: `xcodegen generate`, `xcodebuild … build`, then open `Summon.app` (see its README) | Menu-bar voice leader key: say “Summon” plus a keyword, or route the request to a Claude Code session. iPhone Action Button companion. |
 | Gmail attachments CLI | Local project `gmail-cli` (no origin remote configured at audit) | `npm install`, then `node bin/index.js --help` | Legacy Node tool; configure OAuth locally. `gog` is the preferred current Gmail CLI. |
