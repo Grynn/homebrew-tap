@@ -141,6 +141,7 @@ syncs Alfred prefs through Dropbox they are already present.
 | Keyword | Workflow | What it does | Needs |
 | --- | --- | --- | --- |
 | `swap` | Swap | Sends the top window on the main display one screen right, then centres the next Cmd-Tab app on main | Accessibility + System Events permission |
+| `tile` | Tile | Puts the last two apps side by side on the main display: front window left half, previous app right half | Accessibility + System Events permission |
 | `claw` | Claw | `claw MESSAGE` sends to the Claw Telegram DM; bare `claw` opens the chat | `share-to-claw` |
 | `ytq` | Video Queue | Queue a video URL, search the queue, or open the dashboard | `ytq`, `open-in-browser` |
 | `rr` | Roam Search | Searches the live Roam graph | `rr` |
