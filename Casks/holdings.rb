@@ -1,6 +1,6 @@
 cask "holdings" do
-  version "0.4.0"
-  sha256 "e7ac7f3d2485be89b30ea9e5acbc15053fa47d0ba1ccf0ed4d8d4e2aef9ae1cb"
+  version "0.5.0"
+  sha256 "2b1fea18b9de0b7a56bd17ba0b31d8770b7e67742622e02e82c283d88feb3ea7"
 
   # Tailnet only: static.p.twidex.com skips Cloudflare Access but is reachable only with Tailscale on.
   # The repository is private, so the build is not published anywhere public.
